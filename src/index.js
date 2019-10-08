@@ -3,9 +3,14 @@ const morgan  = require('morgan');
 const path    = require('path');
 const exphbs  = require('express-handlebars');
 const bodyParser = require('body-parser');
+const flash      = require('connect-flash');
+const session    = require('express-session');
+const MySQLStore = require('express-mysql-session');
+const passport   = require('passport');
+const {database} = require('./keys');
 //////////////////////////////////////////////////////Initializations
 const app = express();
-
+require('./lib/passport')
 //////////////////////////////////////////////////////Settings
 app.set('port', process.env.PORT || 4000);
 
@@ -26,6 +31,23 @@ app.set('view engine', '.hbs');
 
 
 ////////////////////////////////////////////////////Midlewares
+
+//Flash module need a session, we configurate this function 
+app.use(session({
+  secret: 'mysqlnodesession',
+  resave: false,
+  saveUninitialized: false,
+  //We save the session on database
+  store: new MySQLStore(database)
+
+}));
+//Initialize the flash module for show messages
+app.use(flash());
+
+//Initialize passport
+app.use(passport.initialize());
+app.use(passport.session());
+
 app.use(morgan('dev'));
 
 //aceptar info desde el front
@@ -36,6 +58,14 @@ app.use(bodyParser.json());
 
 ///////////////////////////////////////////////////Global variables
 app.use((req,res,next) =>{
+
+   app.locals.success = req.flash('success');
+   
+   app.locals.message = req.flash('message');
+
+   //Save user info in to global variables
+   app.locals.user = req.user;
+
 next();
 });
 
@@ -44,6 +74,7 @@ next();
 app.use(require('./routes/index'));
 app.use(require('./routes/authentication'));
 app.use('/links', require('./routes/link'));
+app.use(require('./routes/authentication'));
 
 
 ///////////////////////////////////////////////////Public

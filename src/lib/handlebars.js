@@ -1,6 +1,12 @@
-const express = require('express');
+const {format} = require('timeago.js');
 
-const router = express.Router();
+const helpers = {};
+
+helpers.timeago = (timestamp) => {
+
+    return format(timestamp);
+
+};
 
 
-module.exports = router;
+module.exports = helpers;
