@@ -42,3 +42,18 @@ ALTER TABLE links
   MODIFY id INT(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT = 2;
 
 DESCRIBE links;
+
+
+
+/*============================================SP============================================================*/
+use db_links;
+
+DELIMITER $$
+ 
+CREATE PROCEDURE SPWEBINSERTNEWUSERS (IN FICUSERNAME VARCHAR(100), IN FICPASSWORD VARCHAR(100), IN FCFULLNAME VARCHAR(60))
+BEGIN
+
+    INSERT INTO users (username, password, fullname) VALUES (FICUSERNAME, FICPASSWORD, FCFULLNAME);
+    
+END$$ 
+DELIMITER ;
