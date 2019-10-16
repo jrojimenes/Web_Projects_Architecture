@@ -20,10 +20,11 @@ passport.use('local.signin', new localStrategy({
           //null-error/ user for persist/ message 
         done(null, user, req.flash('success', 'Welcome ' + user.username));
       } else {
-        done(null, false, req.flash('message', 'Incorrect Password'));
+        done(null, false, req.flash('error', 'Incorrect Password'));
       }
     } else {
-      return done(null, false, req.flash('message', 'The Username does not exists.'));
+      
+      return done(null, false, req.flash('error', 'The Username does not exists.'));
     }
   }));  
 

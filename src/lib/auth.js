@@ -6,7 +6,7 @@ module.exports = {
              return next();
         }
         
-        return res.redirect('/signIn');
+        return res.redirect('/profile');
         
     },
 
@@ -16,7 +16,7 @@ module.exports = {
             return next();
        }
        
-       return res.redirect('/profile');
+       return res.redirect('/signIn');
     }
 
 };

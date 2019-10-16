@@ -61,7 +61,7 @@ app.use((req,res,next) =>{
 
    app.locals.success = req.flash('success');
    
-   app.locals.message = req.flash('message');
+   app.locals.error = req.flash('error');
 
    //Save user info in to global variables
    app.locals.user = req.user;
